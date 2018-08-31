@@ -1,6 +1,7 @@
 package com.sagar.to_dolist;
 
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,10 @@ import java.util.Date;
 public class AddTaskActivity extends AppCompatActivity {
     private static final String TAG = AddTaskActivity.class.getSimpleName();
 
+    // Extra for the task ID to be received in the intent
+    public static final String EXTRA_TASK_ID = "extraTaskId";
+    // Extra for the task ID to be received after rotation
+    public static final String INSTANCE_TASK_ID = "instanceTaskId";
     // Constant for default task id to be used when not in update mode
     private static final int DEFAULT_TASK_ID = -1;
 
@@ -45,6 +50,17 @@ public class AddTaskActivity extends AppCompatActivity {
         initViews();
 
         mDb = AppDatabase.getInstance(getApplicationContext());
+
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra(EXTRA_TASK_ID)) {
+            mButton.setText(R.string.update_button);
+            if (mTaskId == DEFAULT_TASK_ID) {
+                // populate the UI
+                mTaskId = intent.getIntExtra(EXTRA_TASK_ID, DEFAULT_TASK_ID);
+
+
+            }
+        }
 
 
         // end
