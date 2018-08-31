@@ -58,10 +58,19 @@ public class AddTaskActivity extends AppCompatActivity {
                 // populate the UI
                 mTaskId = intent.getIntExtra(EXTRA_TASK_ID, DEFAULT_TASK_ID);
 
+                AddTaskViewModelFactory factory = new AddTaskViewModelFactory(mDb, mTaskId);
+                final AddTaskViewModel viewModel
+                        = ViewModelProviders.of(this, factory).get(AddTaskViewModel.class);
 
+                viewModel.getTask().observe(this, new Observer<TaskEntry>() {
+                    @Override
+                    public void onChanged(@Nullable TaskEntry taskEntry) {
+                        viewModel.getTask().removeObserver(this);
+                        populateUI(taskEntry);
+                    }
+                });
             }
         }
-
 
         // end
     }
@@ -118,6 +127,30 @@ public class AddTaskActivity extends AppCompatActivity {
                 priority = PRIORITY_LOW;
         }
         return priority;
+    }
+
+
+    private void populateUI(TaskEntry task) {
+        if (task == null) {
+            return;
+        }
+
+        mEditText.setText(task.getDescription());
+        setPriorityInViews(task.getPriority());
+    }
+
+
+    public void setPriorityInViews(int priority) {
+        switch (priority) {
+            case PRIORITY_HIGH:
+                ((RadioGroup) findViewById(R.id.radioGroup)).check(R.id.radButton1);
+                break;
+            case PRIORITY_MEDIUM:
+                ((RadioGroup) findViewById(R.id.radioGroup)).check(R.id.radButton2);
+                break;
+            case PRIORITY_LOW:
+                ((RadioGroup) findViewById(R.id.radioGroup)).check(R.id.radButton3);
+        }
     }
 
 

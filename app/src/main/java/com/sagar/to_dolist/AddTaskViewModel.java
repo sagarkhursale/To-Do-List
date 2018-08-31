@@ -12,7 +12,7 @@ public class AddTaskViewModel extends ViewModel {
     private LiveData<TaskEntry> task;
 
 
-    public AddTaskViewModel(AppDatabase database, int taskId) {
+    AddTaskViewModel(AppDatabase database, int taskId) {
         task = database.taskDao().loadTaskById(taskId);
     }
 
