@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
         fabButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent addTaskIntent = new Intent(MainActivity.this, AddTaskActivity.class);
+                startActivity(addTaskIntent);
             }
         });
 
