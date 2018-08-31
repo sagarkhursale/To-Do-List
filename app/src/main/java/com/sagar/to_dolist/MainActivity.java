@@ -22,7 +22,7 @@ import java.util.List;
 import static android.support.v7.widget.DividerItemDecoration.VERTICAL;
 
 
-public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemClickListener{
+public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         mRecyclerView = findViewById(R.id.recyclerViewTasks);
 
@@ -105,5 +106,6 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
         startActivity(intent);
     }
 
-// END
+
+    // END
 }

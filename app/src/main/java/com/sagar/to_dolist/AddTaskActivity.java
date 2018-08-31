@@ -39,8 +39,8 @@ public class AddTaskActivity extends AppCompatActivity {
 
     private int mTaskId = DEFAULT_TASK_ID;
 
-    // Member variable for the Database
     private AppDatabase mDb;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +50,10 @@ public class AddTaskActivity extends AppCompatActivity {
         initViews();
 
         mDb = AppDatabase.getInstance(getApplicationContext());
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(INSTANCE_TASK_ID)) {
+            mTaskId = savedInstanceState.getInt(INSTANCE_TASK_ID, DEFAULT_TASK_ID);
+        }
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(EXTRA_TASK_ID)) {
@@ -151,6 +155,13 @@ public class AddTaskActivity extends AppCompatActivity {
             case PRIORITY_LOW:
                 ((RadioGroup) findViewById(R.id.radioGroup)).check(R.id.radButton3);
         }
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(INSTANCE_TASK_ID, mTaskId);
+        super.onSaveInstanceState(outState);
     }
 
 
