@@ -9,12 +9,14 @@ import android.util.Log;
 
 
 @Database(entities = {TaskEntry.class}, version = 1, exportSchema = false)
+@TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
     private static final Object LOCK = new Object();
     private static final String DATABASE_NAME = "todolist";
     private static AppDatabase sInstance;
+
 
     public static AppDatabase getInstance(Context context) {
         if (sInstance == null) {
@@ -29,6 +31,9 @@ public abstract class AppDatabase extends RoomDatabase {
         return sInstance;
     }
 
+
     public abstract TaskDao taskDao();
 
+
+    // END
 }
