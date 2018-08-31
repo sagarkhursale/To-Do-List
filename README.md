@@ -3,16 +3,16 @@ Android Acrchitechture Components
 
  -> AAC is set of libraries.
 
- - Room 
+ - Room : 
    It is a SQLite object relationa mapping library.
 
- - LiveData 
+ - LiveData : 
    To observe changes into the database.
 
- - ViewModel
+ - ViewModel : 
    To cache data that needs survive to configuration changes.
 
- - LifeCycle
+ - LifeCycle : 
    To allow non-life-cycle objects to be lifecyle aware.
 
  
