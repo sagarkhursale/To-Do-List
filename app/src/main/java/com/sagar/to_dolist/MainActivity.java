@@ -79,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
         });
 
 
+        mDb = AppDatabase.getInstance(getApplicationContext());
+
         // populate list
         setupViewModel();
 
