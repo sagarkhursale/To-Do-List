@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.sagar.to_dolist.database.AppDatabase;
+import com.sagar.to_dolist.database.TaskEntry;
 
 import java.util.Date;
 
@@ -70,7 +71,22 @@ public class AddTaskActivity extends AppCompatActivity {
         int priority = getPriorityFromViews();
         Date date = new Date();
 
-        }
+        final TaskEntry task = new TaskEntry(description, priority, date);
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                if (mTaskId == DEFAULT_TASK_ID) {
+                    // insert new task
+                    mDb.taskDao().insertTask(task);
+                } else {
+                    //update task
+                    task.setId(mTaskId);
+                    mDb.taskDao().updateTask(task);
+                }
+                finish();
+            }
+        });
+    }
 
 
     public int getPriorityFromViews() {
