@@ -65,7 +65,6 @@ public class AddTaskActivity extends AppCompatActivity {
     }
 
 
-    //
     public void onSaveButtonClicked() {
         String description = mEditText.getText().toString();
         int priority = getPriorityFromViews();
