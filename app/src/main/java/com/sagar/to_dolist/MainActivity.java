@@ -10,9 +10,11 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 
+import com.sagar.to_dolist.database.AppDatabase;
 import com.sagar.to_dolist.database.TaskEntry;
 
 import java.util.List;
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
     private RecyclerView mRecyclerView;
 
     private TaskAdapter mAdapter;
+    private AppDatabase mDb;
 
 
     @Override
@@ -43,6 +46,28 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
         mAdapter = new TaskAdapter(this, this);
         mRecyclerView.setAdapter(mAdapter);
 
+        // swipe to delete task..
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            // Called when a user swipes left or right on a ViewHolder
+            @Override
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                // implement swipe to delete
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        int position = viewHolder.getAdapterPosition();
+                        List<TaskEntry> tasks = mAdapter.getTasks();
+                        mDb.taskDao().deleteTask(tasks.get(position));
+                    }
+                });
+            }
+        }).attachToRecyclerView(mRecyclerView);
+
         FloatingActionButton fabButton = findViewById(R.id.fab);
         fabButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements TaskAdapter.ItemC
             }
         });
 
+
+        // populate list
         setupViewModel();
 
         // end
