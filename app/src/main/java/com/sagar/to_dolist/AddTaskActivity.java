@@ -10,11 +10,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import com.sagar.to_dolist.database.AppDatabase;
+
 import java.util.Date;
 
 
 public class AddTaskActivity extends AppCompatActivity {
     private static final String TAG = AddTaskActivity.class.getSimpleName();
+
+    // Constant for default task id to be used when not in update mode
+    private static final int DEFAULT_TASK_ID = -1;
 
     // views
     EditText mEditText;
@@ -26,6 +31,10 @@ public class AddTaskActivity extends AppCompatActivity {
     public static final int PRIORITY_MEDIUM = 2;
     public static final int PRIORITY_LOW = 3;
 
+    private int mTaskId = DEFAULT_TASK_ID;
+
+    // Member variable for the Database
+    private AppDatabase mDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +42,8 @@ public class AddTaskActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_task);
 
         initViews();
+
+        mDb = AppDatabase.getInstance(getApplicationContext());
 
 
         // end
